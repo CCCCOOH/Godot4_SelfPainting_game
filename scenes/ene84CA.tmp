@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://du4ws4nkj6ts3"]
+
+[ext_resource type="Texture2D" uid="uid://bhn4t6hlw4okp" path="res://sprites/enemy-situo_version-Sheet.png" id="1_1rg4v"]
+[ext_resource type="Script" path="res://scenes/enemy_situo_version.gd" id="1_d1aed"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u4u4s"]
+atlas = ExtResource("1_1rg4v")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3i7s"]
+atlas = ExtResource("1_1rg4v")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3r33k"]
+atlas = ExtResource("1_1rg4v")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jwbxj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u4u4s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3i7s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3r33k")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vnkfk"]
+radius = 7.0
+height = 24.0
+
+[node name="Enemy_situo_version" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1_d1aed")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jwbxj")
+frame_progress = 0.895245
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 0)
+shape = SubResource("CapsuleShape2D_vnkfk")
+
+[node name="RightRayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(11, 0)
+collision_mask = 32
+
+[node name="LeftRayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(-15, -1)
+collision_mask = 32

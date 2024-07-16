@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://nee1bkwfv50n"]
+
+[ext_resource type="Texture2D" uid="uid://l10quknm4bgf" path="res://精灵工坊/testTile.png" id="1_sp0n7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_15frx"]
+size = Vector2(16, 8)
+
+[node name="PlatForm" type="AnimatableBody2D"]
+z_index = -1
+collision_layer = 2
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_sp0n7")
+region_enabled = true
+region_rect = Rect2(32, 0, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_15frx")
+one_way_collision = true

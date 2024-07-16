@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://c83wjov7fss7e"]
+
+[ext_resource type="PackedScene" uid="uid://du4ws4nkj6ts3" path="res://scenes/enemy_situo_version.tscn" id="1_b31rt"]
+[ext_resource type="Script" path="res://scenes/enemies.gd" id="1_b37vk"]
+
+[node name="Enemies" type="Node2D" groups=["enemies"]]
+script = ExtResource("1_b37vk")
+
+[node name="Enemy_situo_version" parent="." instance=ExtResource("1_b31rt")]
+position = Vector2(-125, -13)
+
+[node name="Enemy_situo_version2" parent="." instance=ExtResource("1_b31rt")]
+position = Vector2(259, -13)
+
+[node name="Enemy_situo_version3" parent="." instance=ExtResource("1_b31rt")]
+position = Vector2(51, -13)
+
+[node name="Enemy_situo_version4" parent="." instance=ExtResource("1_b31rt")]
+position = Vector2(171, -13)
+
+[node name="Enemy_situo_version5" parent="." instance=ExtResource("1_b31rt")]
+position = Vector2(-45, -13)

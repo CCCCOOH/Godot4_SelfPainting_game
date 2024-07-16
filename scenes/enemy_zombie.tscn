@@ -1,0 +1,151 @@
+[gd_scene load_steps=19 format=3 uid="uid://681xx28ydd08"]
+
+[ext_resource type="Script" path="res://scenes/enemy_zombie.gd" id="1_4t8de"]
+[ext_resource type="Texture2D" uid="uid://bnbn8v7ipok0g" path="res://sprites/enemy-zombie-Sheet.png" id="2_wrv4y"]
+[ext_resource type="PackedScene" uid="uid://5i5dxcltkj7n" path="res://scenes/died_area.tscn" id="3_t8tts"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y6cdf"]
+atlas = ExtResource("2_wrv4y")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auc18"]
+atlas = ExtResource("2_wrv4y")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7aup"]
+atlas = ExtResource("2_wrv4y")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dx4o"]
+atlas = ExtResource("2_wrv4y")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d8xtu"]
+atlas = ExtResource("2_wrv4y")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2pjs"]
+atlas = ExtResource("2_wrv4y")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8o03"]
+atlas = ExtResource("2_wrv4y")
+region = Rect2(144, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4kess"]
+atlas = ExtResource("2_wrv4y")
+region = Rect2(168, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6tjf"]
+atlas = ExtResource("2_wrv4y")
+region = Rect2(192, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0owyo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y6cdf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auc18")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7aup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dx4o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d8xtu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2pjs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v8o03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4kess")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6tjf")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y0se0"]
+height = 20.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e5pkk"]
+height = 24.0
+
+[sub_resource type="Animation" id="Animation_ahftc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_0q28a"]
+resource_name = "die"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i4eeq"]
+_data = {
+"RESET": SubResource("Animation_ahftc"),
+"die": SubResource("Animation_0q28a")
+}
+
+[node name="EnemyZombie" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1_4t8de")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0owyo")
+animation = &"run"
+
+[node name="DiedArea" parent="." instance=ExtResource("3_t8tts")]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DiedArea"]
+position = Vector2(1, 0)
+shape = SubResource("CapsuleShape2D_y0se0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("CapsuleShape2D_e5pkk")
+
+[node name="LeftRayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(-15, 0)
+collision_mask = 16
+
+[node name="RightRayCast2D" type="RayCast2D" parent="."]
+target_position = Vector2(17, 0)
+collision_mask = 16
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_i4eeq")
+}

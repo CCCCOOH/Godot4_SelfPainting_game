@@ -1,0 +1,125 @@
+[gd_scene load_steps=13 format=3 uid="uid://du4ws4nkj6ts3"]
+
+[ext_resource type="Texture2D" uid="uid://bhn4t6hlw4okp" path="res://sprites/enemy-situo_version-Sheet.png" id="1_1rg4v"]
+[ext_resource type="Script" path="res://scenes/enemy_situo_version.gd" id="1_d1aed"]
+[ext_resource type="PackedScene" uid="uid://5i5dxcltkj7n" path="res://scenes/died_area.tscn" id="3_063ig"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u4u4s"]
+atlas = ExtResource("1_1rg4v")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3i7s"]
+atlas = ExtResource("1_1rg4v")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3r33k"]
+atlas = ExtResource("1_1rg4v")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jwbxj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u4u4s")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q3i7s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3r33k")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vnkfk"]
+radius = 7.0
+height = 24.0
+
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_qcgvl"]
+length = 15.2758
+
+[sub_resource type="Animation" id="Animation_ahftc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_0q28a"]
+resource_name = "die"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CollisionShape2D:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i4eeq"]
+_data = {
+"RESET": SubResource("Animation_ahftc"),
+"die": SubResource("Animation_0q28a")
+}
+
+[node name="Enemy_situo_version" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1_d1aed")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jwbxj")
+frame_progress = 0.895245
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 0)
+shape = SubResource("CapsuleShape2D_vnkfk")
+
+[node name="RightRayCast2D" type="RayCast2D" parent="."]
+position = Vector2(-1, 0)
+target_position = Vector2(12, 0)
+collision_mask = 16
+
+[node name="LeftRayCast2D" type="RayCast2D" parent="."]
+position = Vector2(-3, 0)
+target_position = Vector2(-12, 0)
+collision_mask = 16
+
+[node name="DiedArea" parent="." instance=ExtResource("3_063ig")]
+position = Vector2(15, 3)
+
+[node name="RightDiedArea" type="CollisionShape2D" parent="DiedArea"]
+position = Vector2(-19, -3)
+rotation = -1.57079
+scale = Vector2(0.961696, 0.981945)
+shape = SubResource("SeparationRayShape2D_qcgvl")
+
+[node name="LeftDiedArea" type="CollisionShape2D" parent="DiedArea"]
+position = Vector2(-15, -3)
+rotation = -4.71217
+scale = Vector2(0.961696, 0.981945)
+shape = SubResource("SeparationRayShape2D_qcgvl")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_i4eeq")
+}
